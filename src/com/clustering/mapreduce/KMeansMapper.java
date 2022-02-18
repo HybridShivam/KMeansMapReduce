@@ -11,6 +11,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import com.clustering.model.ClusterCenter;
 import com.clustering.model.DistanceMeasurer;
 import com.clustering.model.Vector;
+@SuppressWarnings("deprecation")
 public class KMeansMapper extends
 Mapper<ClusterCenter, Vector, ClusterCenter, Vector>{
     List<ClusterCenter> centers = new LinkedList<ClusterCenter>();

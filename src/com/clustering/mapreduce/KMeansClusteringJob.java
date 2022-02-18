@@ -1,4 +1,6 @@
 package com.clustering.mapreduce;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,6 +15,7 @@ import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 import com.clustering.model.ClusterCenter;
 import com.clustering.model.Vector;
+@SuppressWarnings("deprecation")
 public class KMeansClusteringJob {
 
  private static final Log LOG = LogFactory.getLog(KMeansClusteringJob.class);
@@ -43,6 +46,7 @@ public class KMeansClusteringJob {
      //K-Center Vectors
      centerWriter.append(new ClusterCenter(new Vector(1, 1)), value);
      centerWriter.append(new ClusterCenter(new Vector(5, 5)), value);
+     centerWriter.append(new ClusterCenter(new Vector(15, 10)), value);
      centerWriter.close();
      final SequenceFile.Writer dataWriter = 
      SequenceFile.createWriter(fs, conf, in, ClusterCenter.class, Vector.class);
@@ -51,10 +55,13 @@ public class KMeansClusteringJob {
      dataWriter.append(new ClusterCenter(new Vector(0, 0)), new Vector(16, 3));
      dataWriter.append(new ClusterCenter(new Vector(0, 0)), new Vector(3, 3));
      dataWriter.append(new ClusterCenter(new Vector(0, 0)), new Vector(2, 2));
-     dataWriter.append(new ClusterCenter(new Vector(0, 0)), new Vector(2, 3));
+     dataWriter.append(new ClusterCenter(new Vector(0, 0)), new Vector(2, 2));
      dataWriter.append(new ClusterCenter(new Vector(0, 0)), new Vector(25, 1));
      dataWriter.append(new ClusterCenter(new Vector(0, 0)), new Vector(7, 6));
-     dataWriter.append(new ClusterCenter(new Vector(0, 0)), new Vector(6, 5));
+     dataWriter.append(new ClusterCenter(new Vector(0, 0)), new Vector(9, 7));
+     dataWriter.append(new ClusterCenter(new Vector(0, 0)), new Vector(7, 10));
+     dataWriter.append(new ClusterCenter(new Vector(0, 0)), new Vector(17, 16));
+     dataWriter.append(new ClusterCenter(new Vector(0, 0)), new Vector(13, 15));
      dataWriter.append(new ClusterCenter(new Vector(0, 0)), new Vector(-1, -23));
      dataWriter.close();
      SequenceFileOutputFormat.setOutputPath(job, out);
@@ -69,6 +76,7 @@ public class KMeansClusteringJob {
          conf = new Configuration();
          conf.set("centroid.path", center.toString());
          conf.set("num.iteration", iteration + "");
+         conf.set("mapred.textoutputformat.separatorText", ",");
          job = new Job(conf);
          job.setJobName("KMeans Clustering " + iteration);
          job.setMapperClass(KMeansMapper.class);
@@ -97,9 +105,20 @@ public class KMeansClusteringJob {
          SequenceFile.Reader reader = new SequenceFile.Reader(fs, path, conf);
          ClusterCenter key = new ClusterCenter();
          Vector v = new Vector();
-         while (reader.next(key, v)) {
-             LOG.info(key + " / " + v);
-         }
+         try {
+            File file = new File("Output.txt");
+            FileWriter writer = new FileWriter(file.getAbsoluteFile(),false);
+            while (reader.next(key, v)) {
+                //Logging
+                LOG.info(key + " / " + v);
+                //Writing
+                writer.write(key.print() + "," + v.print()+"\n");
+            }
+            writer.close();
+          } catch (IOException e) {
+            System.out.println("An error occurred during Output.txt creation.");
+            e.printStackTrace();
+          }
          reader.close();
      }
  }

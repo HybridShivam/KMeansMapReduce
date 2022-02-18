@@ -43,4 +43,14 @@ public Vector getCenter() {
 public String toString() {
    return "ClusterCenter [center=" + center + "]";
 }
+public String print(){
+    String s="";
+    for(int i=0;i<center.getVector().length;i++){
+        s=s+center.getVector()[i];
+        if(i<center.getVector().length-1){
+            s=s+',';
+        }
+    }
+    return s;
+}
 }

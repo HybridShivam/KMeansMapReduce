@@ -10,6 +10,7 @@ import org.apache.hadoop.io.SequenceFile;
 import org.apache.hadoop.mapreduce.Reducer;
 import com.clustering.model.ClusterCenter;
 import com.clustering.model.Vector;
+@SuppressWarnings("deprecation")
 public class KMeansReducer extends 
 	Reducer<ClusterCenter, Vector, ClusterCenter, Vector>{
 	public static enum Counter{

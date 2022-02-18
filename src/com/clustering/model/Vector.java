@@ -58,4 +58,14 @@ public void setVector(double[]vector){
 public String toString(){
     return "Vector [vector=" + Arrays.toString(vector) + "]";
 }
+public String print(){
+    String s="";
+    for(int i=0;i<vector.length;i++){
+        s=s+vector[i];
+        if(i<vector.length-1){
+            s=s+',';
+        }
+    }
+    return s;
+}
 }
