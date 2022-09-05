@@ -192,3 +192,16 @@ We create the script `GraphPlotter.py`, that can read and plot these data as sca
 Another python script `BatchGraphPlotter.py`, takes multiple K Means Outputs (For different values of K) as input and calculates both Distortion and Inertia (WCSS) for the Output Clusters by reading Centroids.csv and Output.csv files outputs the result to Elbow.csv.
 This Elbow.csv contains data in the format of (K, WCSS, Distortion) can be plotted using the `ElbowMethod.py` script.
 This WCSS data can be calculated for different values of K and the result can be used to plot a graph for the elbow method.
+
+
+# Input
+![image](https://user-images.githubusercontent.com/28728749/188441186-d7b54404-de24-4ea8-b103-46f60292af67.png)
+
+# Output
+![image](https://user-images.githubusercontent.com/28728749/188441228-79c74844-79b3-4f3b-a719-4b7638044d7c.png)
+
+![image](https://user-images.githubusercontent.com/28728749/188441294-0127a64e-a1e5-4ae9-ad4c-e1aafbd5e64a.png)
+![image](https://user-images.githubusercontent.com/28728749/188441331-2ba5af39-8b1a-40fb-9203-e223faccce85.png)
+![image](https://user-images.githubusercontent.com/28728749/188441365-18fd5fa6-b25c-42e7-92ee-9a472db23e35.png)
+![image](https://user-images.githubusercontent.com/28728749/188441404-98dacd9c-c6d1-430d-9c27-0aadb33a7c0a.png)
+![image](https://user-images.githubusercontent.com/28728749/188441422-a25f56a0-3593-4e42-9c3b-28e4cc2a42e0.png)
