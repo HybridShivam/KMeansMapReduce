@@ -2,14 +2,14 @@
 
 ## Getting Started
 
-
-1. Launch a Linux VM on Windows and install and configure `docker` and `docker-compose` on the virtual machine.
+1. Install hadoop, alternatively, follow steps 2-4 for hadoop installation in docker environment.
+1. Launch a Linux VM on Windows; install and configure `docker` and `docker-compose` on the virtual machine.
 1. Clone the [big-data-europe/docker-hadoop](https://github.com/big-data-europe/docker-hadoop) repo containing the docker compose file with all the necessary information of the Hadoop containers to be created.
-(Alternatively, install hadoop in any environment)
 1. Run the `docker-compose file` in the cloned directory with 
     ```
     docker-compose up -d
     ```
+    
 1. Export the `.jar` file of the project with `KMeansClusteringJob` Class as the main class and transfer it to the datanode container where it can be run on the Hadoop architecture.
 
 1. Run the `.jar` file on Hadoop with the appropriate arguments. 
