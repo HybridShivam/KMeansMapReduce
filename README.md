@@ -1,6 +1,69 @@
+# K-Means Clustering using Hadoop
+
 ## Getting Started
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+
+1. Launch a Linux VM on Windows and install and configure `docker` and `docker-compose` on the virtual machine.
+1. Clone the [big-data-europe/docker-hadoop](https://github.com/big-data-europe/docker-hadoop) repo containing the docker compose file with all the necessary information of the Hadoop containers to be created.
+(Alternatively, install hadoop in any environment)
+1. Run the `docker-compose file` in the cloned directory with 
+    ```
+    docker-compose up -d
+    ```
+1. Export the `.jar` file of the project with `KMeansClusteringJob` Class as the main class and transfer it to the datanode container where it can be run on the Hadoop architecture.
+
+1. Run the `.jar` file on Hadoop with the appropriate arguments. 
+
+    ```
+    hadoop KMeansMapReduce.jar input.txt m 7 0
+    ```
+
+    The various arguments created for the `.jar` file are:
+    * Inputfile: Location of the input csv file.
+    * Distanceformula : Character indicating the distance algorithm to be used;
+        * m ; Manhattan Distance
+        * e : Euclidian Distance
+        * j : Jaccard Distance
+    * K: No of cluster to be created
+    * Error: Maximum amount of error in the convergence check
+    * Debug: “y” for skipping all subsequent iterations and no file output.
+
+1. Use the python scripts to visualize the data.
+
+
+## Input DataSet (100,000)
+![image](https://user-images.githubusercontent.com/28728749/188441186-d7b54404-de24-4ea8-b103-46f60292af67.png)
+
+## Hadoop Result
+![image](https://user-images.githubusercontent.com/28728749/188441228-79c74844-79b3-4f3b-a719-4b7638044d7c.png)
+
+## Elbow Method for the optimal value of K
+
+Elbow method for WCSS:
+
+![image](https://user-images.githubusercontent.com/28728749/188441294-0127a64e-a1e5-4ae9-ad4c-e1aafbd5e64a.png)
+
+Elbow method for Distortion:
+
+![image](https://user-images.githubusercontent.com/28728749/188441331-2ba5af39-8b1a-40fb-9203-e223faccce85.png)
+
+## Clustering Plot (Dataset100.csv)
+
+###  K = 7 and Euclidian Distance
+![image](https://user-images.githubusercontent.com/28728749/188441365-18fd5fa6-b25c-42e7-92ee-9a472db23e35.png)
+
+###  K = 7 and Manhattan Distance
+
+
+![image](https://user-images.githubusercontent.com/28728749/188441404-98dacd9c-c6d1-430d-9c27-0aadb33a7c0a.png)
+
+###  K = 7 and Jaccard Distance
+
+![image](https://user-images.githubusercontent.com/28728749/188441422-a25f56a0-3593-4e42-9c3b-28e4cc2a42e0.png)
+
+<br>
+
+# Documentation
 
 ## Folder Structure
 
@@ -11,14 +74,6 @@ The workspace contains two folders by default, where:
 - `out`: the folder containing the output from Previous MapReduce Jobs
 
 Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
-
-# Java Classes
 
 ## Vector Class
 This model class contains the definition for the Vectors that store the `key value` pairs. Height and Weight in the case of my project. The `Vector` class implements `WritableComparable<Vector>`.
@@ -166,42 +221,19 @@ public class KMeansClusteringJob {
 }
 ```
 
-After creating all the project files, we can proceed to export a .jar file of the project with KMeansClusteringJob Class as the main class and transfer it to the datanode container where it can be run on Hadoop architecture.
-
-Run the `.jar` file on Hadoop with the appropriate arguments.
-
-The various arguments created for the `.jar` file are:
-* Inputfile: Location of the input csv file.
-* Distanceformula : Character indicating the distance algorithm to be used;
-    * m ; Manhattan Distance
-    * e : Euclidian Distance
-    * j : Jaccard Distance
-* K: No of cluster to be created
-* Error: Maximum amount of error in the convergence check
-* Debug: “y” for skipping all subsequent iterations and no file output.
-
+<br>
 
 # Python Scripts
 
 The python scripts use libraries like `pandas` and `matplotlib` to read the output data from the csv files and display it as scatter plots for analysis and comparison.
 The KMeansClustering Job returns two files as the output: 
+
 `Centroids.csv` and `Output.csv`.
-Centroids.csv contains all the centroids.
+
+`Centroids.csv` contains all the centroids.
 `Output.csv` contains all the data along with the centroid they are clustered into. 
-We create the script `GraphPlotter.py`, that can read and plot these data as scatter plots.
+The script `GraphPlotter.py` can read and plot these data as scatter plots.
+
 Another python script `BatchGraphPlotter.py`, takes multiple K Means Outputs (For different values of K) as input and calculates both Distortion and Inertia (WCSS) for the Output Clusters by reading Centroids.csv and Output.csv files outputs the result to Elbow.csv.
 This Elbow.csv contains data in the format of (K, WCSS, Distortion) can be plotted using the `ElbowMethod.py` script.
 This WCSS data can be calculated for different values of K and the result can be used to plot a graph for the elbow method.
-
-
-# Input
-![image](https://user-images.githubusercontent.com/28728749/188441186-d7b54404-de24-4ea8-b103-46f60292af67.png)
-
-# Output
-![image](https://user-images.githubusercontent.com/28728749/188441228-79c74844-79b3-4f3b-a719-4b7638044d7c.png)
-
-![image](https://user-images.githubusercontent.com/28728749/188441294-0127a64e-a1e5-4ae9-ad4c-e1aafbd5e64a.png)
-![image](https://user-images.githubusercontent.com/28728749/188441331-2ba5af39-8b1a-40fb-9203-e223faccce85.png)
-![image](https://user-images.githubusercontent.com/28728749/188441365-18fd5fa6-b25c-42e7-92ee-9a472db23e35.png)
-![image](https://user-images.githubusercontent.com/28728749/188441404-98dacd9c-c6d1-430d-9c27-0aadb33a7c0a.png)
-![image](https://user-images.githubusercontent.com/28728749/188441422-a25f56a0-3593-4e42-9c3b-28e4cc2a42e0.png)
