@@ -67,11 +67,11 @@ Elbow method for Distortion:
 
 ## Folder Structure
 
-The workspace contains two folders by default, where:
+The workspace contains these folders by default, where:
 
 - `src`: the folder to maintain sources
 - `lib`: the folder to maintain dependencies
-- `out`: the folder containing the output from Previous MapReduce Jobs
+- `out`: the folder containing the output of the Previous MapReduce Jobs
 
 Meanwhile, the compiled output files will be generated in the `bin` folder by default.
 
